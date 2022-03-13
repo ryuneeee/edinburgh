@@ -6,7 +6,6 @@ export class AppService {
   constructor(private scrapService: ScrapService) {}
 
   getHello(): string {
-
     return JSON.stringify(this.scrapService);
   }
 }

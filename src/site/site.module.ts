@@ -6,10 +6,7 @@ import { ScrapModule } from 'src/scrap/scrap.module';
 import { PpomppuService } from './ppomppu.service';
 
 @Module({
-  imports: [
-    ScrapModule,
-    ScheduleModule.forRoot()
-  ],
+  imports: [ScrapModule, ScheduleModule.forRoot()],
   controllers: [],
   providers: [ClienService, ClienParkService, PpomppuService],
 })
