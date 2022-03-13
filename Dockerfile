@@ -1,10 +1,11 @@
 FROM node:17
 
 WORKDIR /usr/src/app
-COPY ./src ./src
+COPY ./ ./
 
-COPY package*.json ./
 RUN yarn install
+RUN yarn build
+
 EXPOSE 3000
 
-CMD ["yarn", "start:prod"]
+CMD npm run start:prod
