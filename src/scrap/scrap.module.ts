@@ -1,14 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ClienService } from './clien.service';
-import { ScheduleModule } from '@nestjs/schedule';
-import { PpomppuService } from './ppomppu.service';
-
+import { SiteModule } from 'src/site/site.module';
+import { ScrapService } from './scrap.service';
 
 @Module({
-  imports: [
-    ScheduleModule.forRoot()
-  ],
-  controllers: [],
-  providers: [ClienService, PpomppuService]
+  providers: [ScrapService],
+  exports: [ScrapService]
 })
 export class ScrapModule {}

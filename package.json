@@ -27,6 +27,11 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
+    "@types/cheerio": "^0.22.31",
+    "@types/iconv-lite": "^0.0.1",
+    "axios": "^0.26.1",
+    "cheerio": "^1.0.0-rc.10",
+    "iconv-lite": "^0.6.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
