@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 COPY ./src ./src
 
 COPY package*.json ./
-COPY ecosystem.config.js ./
 RUN yarn install
 EXPOSE 3000
 
