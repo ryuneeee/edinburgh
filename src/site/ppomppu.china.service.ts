@@ -7,13 +7,13 @@ import cheerio from 'cheerio';
 import * as iconv from 'iconv-lite';
 
 const baseUrl = 'https://www.ppomppu.co.kr/zboard/';
-const target = `${baseUrl}zboard.php?id=ppomppu`;
+const target = `${baseUrl}zboard.php?id=ppomppu8`;
 
 @Injectable()
-export class PpomppuService {
+export class PpomppuChinaService {
   constructor(private readonly scrapService: ScrapService) {}
 
-  private readonly logger = new Logger(PpomppuService.name);
+  private readonly logger = new Logger(PpomppuChinaService.name);
 
   @Cron('0 */1 * * * *')
   scrahandleCronp() {
@@ -32,7 +32,7 @@ export class PpomppuService {
           })
           .get();
 
-        this.scrapService.scrap(PpomppuService.name, scraps);
+        this.scrapService.scrap(PpomppuChinaService.name, scraps);
       })
       .catch((error) => {
         // handle error

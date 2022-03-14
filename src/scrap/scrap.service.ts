@@ -13,6 +13,7 @@ export class ScrapService {
       this.scrapMap[serviceName]
         .filter((y: Scrap) => y.href == x.href)
         .map((z: Scrap) => {
+          z.title = z.title;
           z.hits = x.hits;
           z.comments = x.comments;
         });
