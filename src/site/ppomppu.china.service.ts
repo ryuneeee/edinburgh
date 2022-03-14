@@ -15,15 +15,23 @@ export class PpomppuChinaService {
 
   private readonly logger = new Logger(PpomppuChinaService.name);
 
-  @Cron('0 */1 * * * *')
+  @Cron('*/1 * * * * *')
   scrahandleCronp() {
     axios
       .get(target, { responseType: 'arraybuffer' })
       .then((response) => {
         const $ = cheerio.load(iconv.decode(response.data, 'EUC-KR'));
-        const scraps = $('.list0,.list1').filter((i, x) => ($(x).find('.eng.list_vspace > img').attr('alt') == undefined))
+        const scraps = $('.list0,.list1')
+          .filter(
+            (i, x) =>
+              $(x).find('.eng.list_vspace > img').attr('alt') == undefined,
+          )
           .map((i, row) => {
-            const title = $(row).find('td>div>a').text().replace(/\n/g, '').replace(/\t/g, '');
+            const title = $(row)
+              .find('td>div>a')
+              .text()
+              .replace(/\n/g, '')
+              .replace(/\t/g, '');
             const href = baseUrl + $(row).find('td>div>a').attr('href');
             const hits = $(row).find('td').last().text();
             const comments = $(row).find('.list_comment2').text();

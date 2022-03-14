@@ -10,7 +10,12 @@ import { PpomppuOverseasService } from './ppomppu.overseas.service';
 @Module({
   imports: [ScrapModule, ScheduleModule.forRoot()],
   controllers: [],
-  providers: [ClienService, PpomppuService, PpomppuChinaService, PpomppuOverseasService],
+  providers: [
+    ClienService,
+    PpomppuService,
+    PpomppuChinaService,
+    PpomppuOverseasService,
+  ],
   // providers: [ClienService, ClienParkService, PpomppuService],
 })
 export class SiteModule {}
