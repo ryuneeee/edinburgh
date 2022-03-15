@@ -22,20 +22,9 @@ export class ClienService {
         const $ = cheerio.load(response.data);
         const scraps = $('div[data-role="list-row"]')
           .map((i, row) => {
-            const title = $(row)
-              .find('a[data-role="list-title-text"]')
-              .text()
-              .replace(/\n/g, '')
-              .replace(/\t/g, '');
-            const href =
-              baseUrl +
-              $(row).find('a[data-role="list-title-text"]').attr('href');
-            const hits = $(row)
-              .find('.list_hit')
-              .first()
-              .text()
-              .replace('.', '')
-              .replace(' k', '00');
+            const title = $(row).find('a[data-role="list-title-text"]').text().replace(/\n/g, '').replace(/\t/g, '');
+            const href = baseUrl + $(row).find('a[data-role="list-title-text"]').attr('href');
+            const hits = $(row).find('.list_hit').first().text().replace('.', '').replace(' k', '00');
             const comments = $(row).find('.rSymph05').first().text();
 
             return new Scrap(title, href, Number(hits), Number(comments));
