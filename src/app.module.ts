@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ScrapModule } from './scrap/scrap.module';
+import { ArticleModule } from './article/article.module';
 import { SiteModule } from './site/site.module';
 
 @Module({
-  imports: [ScrapModule, SiteModule],
+  imports: [ArticleModule, SiteModule],
   controllers: [AppController],
   providers: [AppService],
 })

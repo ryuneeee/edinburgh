@@ -1,17 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { Scrap } from 'src/model/Scrap';
-import { ScrapService } from 'src/scrap/scrap.service';
 import axios from 'axios';
 import cheerio from 'cheerio';
 import * as iconv from 'iconv-lite';
+import { ArticleService } from 'src/article/article.service';
+import { Article } from 'src/model/Article';
 
 const baseUrl = 'https://www.ppomppu.co.kr/zboard/';
 const target = `${baseUrl}zboard.php?id=ppomppu8`;
 
 @Injectable()
 export class PpomppuChinaService {
-  constructor(private readonly scrapService: ScrapService) {}
+  constructor(private readonly articleservice: ArticleService) {}
 
   private readonly logger = new Logger(PpomppuChinaService.name);
 
@@ -21,7 +21,7 @@ export class PpomppuChinaService {
       .get(target, { responseType: 'arraybuffer' })
       .then((response) => {
         const $ = cheerio.load(iconv.decode(response.data, 'EUC-KR'));
-        const scraps = $('.list0,.list1')
+        const articles = $('.list0,.list1')
           .filter((i, x) => $(x).find('.eng.list_vspace > img').attr('alt') == undefined)
           .map((i, row) => {
             const title = $(row).find('td>div>a').text().replace(/\n/g, '').replace(/\t/g, '');
@@ -29,11 +29,11 @@ export class PpomppuChinaService {
             const hits = $(row).find('td').last().text();
             const comments = $(row).find('.list_comment2').text();
 
-            return new Scrap(title, href, Number(hits), Number(comments));
+            return { title: title, href: href, hits: Number(hits), comments: Number(comments) };
           })
           .get();
 
-        this.scrapService.scrap(PpomppuChinaService.name, scraps);
+        this.articleservice.scrap('ppomppu.china', articles);
       })
       .catch((error) => {
         // handle error

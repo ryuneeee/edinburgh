@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { ScrapService } from './scrap/scrap.service';
+import { ArticleService } from './article/article.service';
 
 @Injectable()
 export class AppService {
-  constructor(private scrapService: ScrapService) {}
+  constructor(private articleService: ArticleService) {}
 
-  getHello(): string {
-    return JSON.stringify(this.scrapService.scrapMap);
+  async getHello(): Promise<string> {
+    return this.articleService.getAllAtricles().then(x => {
+      return JSON.stringify(x);
+    })
   }
 }
