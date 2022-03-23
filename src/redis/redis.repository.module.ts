@@ -6,7 +6,7 @@ import { ArticleRedisService } from './article.redis.service';
   imports: [
     RedisModule.forRootAsync({
       useFactory: () => ({
-        config: { 
+        config: {
           url: `redis://${process.env.REDIS_HOST || 'localhost'}:6379`,
         },
       }),

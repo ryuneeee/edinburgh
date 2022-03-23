@@ -4,11 +4,10 @@ import { Article } from 'src/model/Article';
 
 @Injectable()
 export class ArticleRedisService {
-
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
   async get(serviceName: string): Promise<Array<Article>> {
-    return this.redis.hget('articles', serviceName).then(x => JSON.parse(x) || []);
+    return this.redis.hget('articles', serviceName).then((x) => JSON.parse(x) || []);
   }
 
   async set(serviceName: string, articles: Array<Article>) {
@@ -16,6 +15,6 @@ export class ArticleRedisService {
   }
 
   async getSites() {
-    return this.redis.hkeys('articles')
+    return this.redis.hkeys('articles');
   }
 }

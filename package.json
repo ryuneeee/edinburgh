@@ -16,7 +16,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "docker": "docker build . -t ryuneeee/edinburgh && docker image tag ryuneeee/edinburgh ryuneeee/edinburgh:latest && docker image tag ryuneeee/edinburgh ryuneeee/edinburgh:$(git rev-parse --short HEAD)",
     "docker-push": "docker image push ryuneeee/edinburgh:$(git rev-parse --short HEAD)",
-    "test": "jest",
+    "test": "jest ",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",

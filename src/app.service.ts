@@ -6,8 +6,8 @@ export class AppService {
   constructor(private articleService: ArticleService) {}
 
   async getHello(): Promise<string> {
-    return this.articleService.getAllAtricles().then(x => {
+    return this.articleService.getAllAtricles().then((x) => {
       return JSON.stringify(x);
-    })
+    });
   }
 }

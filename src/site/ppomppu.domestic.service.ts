@@ -30,7 +30,7 @@ export class PpomppuDomesticService {
 
             return { title: title, href: href, hits: Number(hits), comments: Number(comments) };
           })
-          .get(); 
+          .get();
 
         this.articleService.scrap('ppomppu.domestic', articles);
       })
