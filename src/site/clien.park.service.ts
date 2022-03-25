@@ -27,7 +27,7 @@ export class ClienParkService {
             const hits = $(row).find('.list_hit').first().text().replace('.', '').replace(' k', '00');
             const comments = $(row).find('.rSymph05').first().text();
 
-            return { title: title, href: href, hits: Number(hits), comments: Number(comments) };
+            return { site: '클리앙 모공', title: title, href: href, hits: Number(hits), comments: Number(comments) };
           })
           .get();
 

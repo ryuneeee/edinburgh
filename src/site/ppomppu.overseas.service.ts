@@ -28,7 +28,7 @@ export class PpomppuOverseasService {
             const hits = $(row).find('td').last().text();
             const comments = $(row).find('.list_comment2').text();
 
-            return { title: title, href: href, hits: Number(hits), comments: Number(comments) };
+            return { site: '해외뽐뿌', title: title, href: href, hits: Number(hits), comments: Number(comments) };
           })
           .get();
 

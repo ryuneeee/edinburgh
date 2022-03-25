@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import e from 'express';
 import { Article } from 'src/model/Article';
 import { ArticleRedisService } from '../redis/article.redis.service';
 
@@ -7,33 +8,32 @@ export class ArticleService {
   constructor(private readonly articleRedis: ArticleRedisService) {}
 
   async scrap(serviceName: string, articles: Array<Article>) {
-    const cachedArticles: Array<Article> = await this.articleRedis.get(serviceName);
-    const newArticles: Array<Article> = this.subtract(articles, cachedArticles);
+    await this.updateLatestProps(serviceName, articles);
+
+    const cachedArticles = await this.articleRedis.get(serviceName);
+    const newArticles = this.subtract(articles, cachedArticles);
 
     if (newArticles.length > 0) {
-      await this.articleRedis.set(serviceName, articles);
+      await this.articleRedis.put(serviceName, newArticles);
+      await this.articleRedis.publish(serviceName, newArticles);
     }
-
-    await this.updateLatest(serviceName, articles);
   }
 
-  async updateLatest(serviceName: string, articles: Array<Article>) {
+  private subtract(articles: Array<Article>, cachedArticles: Array<Article> = new Array<Article>()): Array<Article> {
+    return articles.filter((e1) => !cachedArticles.map((e2) => e2.href).includes(e1.href));
+  }
+
+  async updateLatestProps(serviceName: string, articles: Array<Article>) {
     Promise.all(
       articles.map(async (newArticle: Article) => {
         return (await this.articleRedis.get(serviceName))
           .filter((a: Article) => a.href == newArticle.href)
           .map((oldArticle: Article) => {
-            oldArticle.title = newArticle.title;
-            oldArticle.hits = newArticle.hits;
-            oldArticle.comments = newArticle.comments;
+            Object.assign(oldArticle, newArticle);
             return oldArticle;
           });
       })
     ).then(async (latest) => await this.articleRedis.set(serviceName, latest.flat()));
-  }
-
-  private subtract(arr1: Array<Article>, arr2: Array<Article> = new Array<Article>()): Array<Article> {
-    return arr1.filter((e1) => !arr2.map((e2) => e2.href).includes(e1.href));
   }
 
   async getAllAtricles(): Promise<any> {
