@@ -16,7 +16,7 @@ export class PpomppuChinaService {
   private readonly logger = new Logger(PpomppuChinaService.name);
   private readonly site: Site = { name: 'ppomppu.china', desc: '알리', icon: '🇨🇳' };
 
-  @Cron('*/1 * * * * *')
+  @Cron('0 */1 * * * *')
   scrahandleCronp() {
     axios
       .get(target, { responseType: 'arraybuffer' })

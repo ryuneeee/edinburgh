@@ -6,12 +6,14 @@ import { ClienParkService } from './clien.park.service';
 import { PpomppuDomesticService } from './ppomppu.domestic.service';
 import { ClienJirumService } from './clien.jirum.service';
 import { ArticleModule } from 'src/article/article.module';
+import { CoolnJoyService } from './coolnjoy.service';
 
 @Module({
   imports: [ArticleModule, ScheduleModule.forRoot()],
   controllers: [],
-  providers: [ClienJirumService, PpomppuChinaService, PpomppuOverseasService],
+  providers: [ClienJirumService, PpomppuChinaService, PpomppuOverseasService, CoolnJoyService],
   // providers: [ClienJirumService, PpomppuDomesticService, PpomppuChinaService, PpomppuOverseasService],
   // providers: [ClienParkService],
+  // providers: [CoolnJoyService],
 })
 export class SiteModule {}
