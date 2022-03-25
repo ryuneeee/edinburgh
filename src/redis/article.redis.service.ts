@@ -1,6 +1,8 @@
 import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 import { Injectable } from '@nestjs/common';
 import { Article } from 'src/model/Article';
+import { Result } from 'src/model/Result';
+import { Site } from 'src/model/Site';
 
 @Injectable()
 export class ArticleRedisService {
@@ -10,31 +12,48 @@ export class ArticleRedisService {
 
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  async get(serviceName: string): Promise<Array<Article>> {
-    return this.redis.hget(this.ARTICLE_KEY, serviceName).then((x) => JSON.parse(x) || []);
+  async get(siteName: string): Promise<Array<Article>> {
+    return this.redis.hget(this.ARTICLE_KEY, siteName).then((x) => JSON.parse(x)?.articles || []);
   }
 
-  async set(serviceName: string, articles: Array<Article>) {
-    return this.redis.hset(this.ARTICLE_KEY, serviceName, JSON.stringify(articles));
+  async set(site: Site, articles: Array<Article>) {
+    let data = {
+      desc: site.desc,
+      articles: articles
+    }
+    return this.redis.hset(this.ARTICLE_KEY, site.name, JSON.stringify(data));
   }
 
-  async put(serviceName: string, newArticles: Array<Article>) {
-    const cachedArticles: Array<Article> = await this.get(serviceName);
+  async put(site: Site, newArticles: Array<Article>) {
+    const cachedArticles: Array<Article> = await this.get(site.name);
 
     newArticles.forEach((x) => {
       cachedArticles.splice(0, 0, x);
       if (cachedArticles.length > this.MAX_LENGTH) cachedArticles.pop();
     });
 
-    await this.set(serviceName, cachedArticles);
+    await this.set(site, cachedArticles);
   }
 
-  async publish(serviceName: string, articles: Array<Article>) {
-    const payload = {
-      serviceName: serviceName,
-      articles: articles,
-    };
-    return await this.redis.publish(this.LATEST_TOPIC, JSON.stringify(payload));
+  async publish(site: Site, articles: Array<Article>) {
+    let data = {
+      site: site,
+      articles: articles
+    }
+    return await this.redis.publish(this.LATEST_TOPIC, JSON.stringify(data));
+  }
+
+  async updateLatestProps(result: Result) {
+    Promise.all(
+      result.articles.map(async (newArticle: Article) => {
+        return (await this.get(result.site.name))
+          .filter((old: Article) => old.href == newArticle.href)
+          .map((old: Article) => {
+            Object.assign(old, newArticle);
+            return old;
+          });
+      })
+    ).then(async (latest) => await this.set(result.site, latest.flat()));
   }
 
   async getSites() {

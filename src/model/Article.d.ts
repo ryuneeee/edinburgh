@@ -1,5 +1,4 @@
-export interface Article {
-  site: string;
+export type Article = {
   title: string;
   href: string;
   hits: number;

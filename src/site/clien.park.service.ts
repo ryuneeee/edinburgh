@@ -3,16 +3,17 @@ import { Cron } from '@nestjs/schedule';
 import axios from 'axios';
 import cheerio from 'cheerio';
 import { ArticleService } from 'src/article/article.service';
-import { Article } from 'src/model/Article';
+import { Site } from 'src/model/Site';
 
 const baseUrl = 'https://clien.net';
 const target = `${baseUrl}/service/board/park`;
 
 @Injectable()
 export class ClienParkService {
-  constructor(private readonly articleservice: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) {}
 
   private readonly logger = new Logger(ClienParkService.name);
+  private readonly site: Site = {name: 'clien.park', desc: '클리앙 모공', icon: '💬'}
 
   @Cron('*/1 * * * * *')
   scrahandleCronp() {
@@ -27,11 +28,11 @@ export class ClienParkService {
             const hits = $(row).find('.list_hit').first().text().replace('.', '').replace(' k', '00');
             const comments = $(row).find('.rSymph05').first().text();
 
-            return { site: '클리앙 모공', title: title, href: href, hits: Number(hits), comments: Number(comments) };
+            return { title: title, href: href, hits: Number(hits), comments: Number(comments) };
           })
           .get();
 
-        this.articleservice.scrap('clien.park', articles);
+          this.articleService.scrap({ site: this.site, articles: articles });
       })
       .catch((error) => {
         // handle error

@@ -4,6 +4,7 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 import * as iconv from 'iconv-lite';
 import { ArticleService } from 'src/article/article.service';
+import { Site } from 'src/model/Site';
 
 const baseUrl = 'https://www.ppomppu.co.kr/zboard/';
 const target = `${baseUrl}zboard.php?id=ppomppu`;
@@ -13,6 +14,7 @@ export class PpomppuDomesticService {
   constructor(private readonly articleService: ArticleService) {}
 
   private readonly logger = new Logger(PpomppuDomesticService.name);
+  private readonly site: Site = {name: 'ppomppu.domestic', desc: '국내 뽐뿌', icon: '🇰🇷'};
 
   @Cron('0 */1 * * * *')
   scrahandleCronp() {
@@ -28,11 +30,11 @@ export class PpomppuDomesticService {
             const hits = $(row).find('td').last().text();
             const comments = $(row).find('.list_comment2').text();
 
-            return { site: '국내뽐뿌', title: title, href: href, hits: Number(hits), comments: Number(comments) };
+            return { title: title, href: href, hits: Number(hits), comments: Number(comments) };
           })
           .get();
 
-        this.articleService.scrap('ppomppu.domestic', articles);
+        this.articleService.scrap({ site: this.site, articles: articles });
       })
       .catch((error) => {
         // handle error

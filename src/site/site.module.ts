@@ -10,7 +10,8 @@ import { ArticleModule } from 'src/article/article.module';
 @Module({
   imports: [ArticleModule, ScheduleModule.forRoot()],
   controllers: [],
-  providers: [ClienJirumService, PpomppuDomesticService, PpomppuChinaService, PpomppuOverseasService],
+  providers: [ClienJirumService, PpomppuChinaService, PpomppuOverseasService],
+  // providers: [ClienJirumService, PpomppuDomesticService, PpomppuChinaService, PpomppuOverseasService],
   // providers: [ClienParkService],
 })
 export class SiteModule {}
