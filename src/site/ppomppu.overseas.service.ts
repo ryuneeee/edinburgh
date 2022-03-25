@@ -14,7 +14,7 @@ export class PpomppuOverseasService {
   constructor(private readonly articleService: ArticleService) {}
 
   private readonly logger = new Logger(PpomppuOverseasService.name);
-  private readonly site: Site = {name: 'ppomppu.overseas', desc: '해외 뽐뿌', icon: '✈️'};
+  private readonly site: Site = { name: 'ppomppu.overseas', desc: '해외 뽐뿌', icon: '✈️' };
 
   @Cron('0 */1 * * * *')
   scrahandleCronp() {
@@ -34,7 +34,7 @@ export class PpomppuOverseasService {
           })
           .get();
 
-          this.articleService.scrap({ site: this.site, articles: articles });
+        this.articleService.scrap({ site: this.site, articles: articles });
       })
       .catch((error) => {
         // handle error

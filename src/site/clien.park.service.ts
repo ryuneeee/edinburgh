@@ -13,7 +13,7 @@ export class ClienParkService {
   constructor(private readonly articleService: ArticleService) {}
 
   private readonly logger = new Logger(ClienParkService.name);
-  private readonly site: Site = {name: 'clien.park', desc: '클리앙 모공', icon: '💬'}
+  private readonly site: Site = { name: 'clien.park', desc: '클리앙 모공', icon: '💬' };
 
   @Cron('*/1 * * * * *')
   scrahandleCronp() {
@@ -32,7 +32,7 @@ export class ClienParkService {
           })
           .get();
 
-          this.articleService.scrap({ site: this.site, articles: articles });
+        this.articleService.scrap({ site: this.site, articles: articles });
       })
       .catch((error) => {
         // handle error

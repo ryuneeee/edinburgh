@@ -1,6 +1,6 @@
-import { Site } from "./Site";
+import { Site } from './Site';
 
-export interface Result { 
-  site: Site, 
-  articles: Array<Article>
+export interface Result {
+  site: Site;
+  articles: Array<Article>;
 }

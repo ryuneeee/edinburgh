@@ -3,4 +3,4 @@ export type Article = {
   href: string;
   hits: number;
   comments: number;
-}
+};

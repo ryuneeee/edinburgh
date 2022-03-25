@@ -9,7 +9,7 @@ export class ArticleService {
 
   async scrap(result: Result) {
     await this.articleRedis.updateLatestProps(result);
-    
+
     const newArticles = await this.subtract(result);
 
     if (newArticles.length > 0) {

@@ -17,10 +17,10 @@ export class ArticleRedisService {
   }
 
   async set(site: Site, articles: Array<Article>) {
-    let data = {
+    const data = {
       desc: site.desc,
-      articles: articles
-    }
+      articles: articles,
+    };
     return this.redis.hset(this.ARTICLE_KEY, site.name, JSON.stringify(data));
   }
 
@@ -36,10 +36,10 @@ export class ArticleRedisService {
   }
 
   async publish(site: Site, articles: Array<Article>) {
-    let data = {
+    const data = {
       site: site,
-      articles: articles
-    }
+      articles: articles,
+    };
     return await this.redis.publish(this.LATEST_TOPIC, JSON.stringify(data));
   }
 

@@ -14,7 +14,7 @@ export class PpomppuDomesticService {
   constructor(private readonly articleService: ArticleService) {}
 
   private readonly logger = new Logger(PpomppuDomesticService.name);
-  private readonly site: Site = {name: 'ppomppu.domestic', desc: '국내 뽐뿌', icon: '🇰🇷'};
+  private readonly site: Site = { name: 'ppomppu.domestic', desc: '국내 뽐뿌', icon: '🇰🇷' };
 
   @Cron('0 */1 * * * *')
   scrahandleCronp() {
