@@ -37,8 +37,6 @@ export class CoolnJoyService {
           })
           .get();
 
-        console.log(articles);
-
         this.articleService.scrap({ site: this.site, articles: articles });
       })
       .catch((error) => {
