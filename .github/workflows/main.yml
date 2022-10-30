@@ -60,19 +60,20 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: always()
-        
-      - name: Install yq
-        run: |
-          snap install yq
+
       - name: Checkout Helm repository & Update image tags
         uses: actions/checkout@v2
         with:
           repository: ryuneeee/helm-repository
           token: ${{ secrets.GH_PAT }}
+
+      - name: Set foobar to cool
+        uses: mikefarah/yq@master
+        with:
+          cmd:  yq e -i '.image.tag="${{ env.commit_hash }}"' ./${{ github.event.repository.name }}/values.yaml
       - run: |
           ls
-          pwd
-          yq e -i '.image.tag="${{ env.commit_hash }}"' ./${{ github.event.repository.name }}/values.yaml
+          pwd     
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
