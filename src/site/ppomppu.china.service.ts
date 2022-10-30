@@ -23,10 +23,10 @@ export class PpomppuChinaService {
       .then((response) => {
         const $ = cheerio.load(iconv.decode(response.data, 'EUC-KR'));
         const articles = $('.list0,.list1')
-          .filter((i, x) => $(x).find('.eng.list_vspace > img').attr('alt') == undefined)
+          .filter((i, x) => $(x).find('.list_vspace > img').attr('alt') == undefined)
           .map((i, row) => {
-            const title = $(row).find('td>div>a').text().replace(/\n/g, '').replace(/\t/g, '');
-            const href = baseUrl + $(row).find('td>div>a').attr('href');
+            const title = $(row).find('td>a').text().replace(/\n/g, '').replace(/\t/g, '');
+            const href = baseUrl + $(row).find('td>a').attr('href');
             const hits = $(row).find('td').last().text();
             const comments = $(row).find('.list_comment2').text();
 
