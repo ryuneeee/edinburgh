@@ -61,13 +61,13 @@ jobs:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: always()
 
-      - name: Checkout Helm repository & Update image tags
+      - name: Checkout Helm repository
         uses: actions/checkout@v2
         with:
           repository: ryuneeee/helm-repository
           token: ${{ secrets.GH_PAT }}
 
-      - name: Set foobar to cool
+      - name: Update image tags
         uses: mikefarah/yq@master
         with:
           cmd:  yq e -i '.image.tag="${{ env.commit_hash }}"' ./${{ github.event.repository.name }}/values.yaml
