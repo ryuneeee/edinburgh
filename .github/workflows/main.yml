@@ -63,7 +63,7 @@ jobs:
         
       - name: Install yq
         run: |
-          brew install yq
+          snap install yq
       - name: Checkout Helm repository & Update image tags
         uses: actions/checkout@v2
         with:
